@@ -2,7 +2,7 @@ module.exports = {
   pages: {
     index: {
       // 页面的入口
-      entry: './src/pages/index/index.js',
+      entry: './src/main.js',
 
       // 页面的模板
       template: './public/index.html',
