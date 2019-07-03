@@ -1,38 +1,52 @@
 <template>
   <div>
-    <div class="header"></div>
-    <div class="container w1242">
-      <div class="nav"></div>
-      <ul class="left-bar"></ul>
-      <div class="right-bar"></div>
+    <div class="header">
+      <img src="../../assets/header.jpg"
+           alt="">
+      <div class="nav">
+        <div class="nav-container w1342">
+          <home-nav :categories="categoryList"></home-nav>
+        </div>
+      </div>
+    </div>
+    <div class="body">
+      <div class="container w1342">
+        <ul class="left-bar">
+          <router-view></router-view>
+        </ul>
+        <div class="right-bar">
+          <user-mp></user-mp>
+        </div>
+      </div>
     </div>
     <div class="footer"></div>
-
-    Home
-    <router-view></router-view>
-    <router-link to="list">list</router-link>
-    <router-link to="detail">detail</router-link>
   </div>
 </template>
 
 <script>
-
+import Nav from '../../components/Nav'
+import UserMp from '../../components/UserMp'
 export default {
   name: '',
   props: [''],
   data () {
     return {
-
+      categoryList: ['首页', 'JavaScript', 'Java', 'Python']
     }
   },
 
-  components: {},
+  components: {
+    'home-nav': Nav,
+    'user-mp': UserMp
+  },
 
   computed: {},
 
   beforeMount () { },
 
-  mounted () { },
+  mounted () {
+
+  },
 
   methods: {},
 
@@ -43,27 +57,42 @@ export default {
 </script>
 <style lang='scss' scoped>
 .header {
-  height: 150px;
-  background: blue;
-}
-.container {
+  overflow: hidden;
+  > img {
+    display: block;
+    height: 270px;
+  }
   > .nav {
     height: 70px;
-    background: green;
+    background: #fff;
   }
-  > .left-bar {
-    height: 500px;
-    width: 70%;
-    box-sizing: border-box;
-    float: left;
-    background: red;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
   }
-  > .right-bar {
-    height: 100px;
-    width: 30%;
-    box-sizing: border-box;
-    float: right;
-    background: grey;
+}
+.body {
+  padding-top: 20px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  > .container {
+    > .left-bar {
+      width: 70%;
+      box-sizing: border-box;
+      float: left;
+      background: #fff;
+      border-radius: 10px;
+    }
+    > .right-bar {
+      overflow: hidden;
+      margin: 0 1%;
+      width: 28%;
+      box-sizing: border-box;
+      float: right;
+      background: #fff;
+      border-radius: 10px;
+    }
   }
 }
 .footer {

@@ -8,6 +8,7 @@ import Category from './views/admin/Category.vue'
 import Content from './views/admin/Content.vue'
 import User from './views/admin/User.vue'
 import Add from './views/admin/Add.vue'
+import Index from './views/admin/Index.vue'
 
 Vue.use(Router)
 
@@ -36,10 +37,16 @@ export default new Router({
     path: '/admin',
     name: 'admin',
     component: Admin,
+    redirect: 'admin/index',
     children: [{
       path: 'user',
       name: 'user',
       component: User
+    },
+    {
+      path: 'index',
+      name: 'index',
+      component: Index
     },
     {
       path: 'category',

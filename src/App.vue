@@ -5,12 +5,18 @@
 </template>
 
 <style lang="scss">
+html {
+  background: #eee;
+}
 * {
   margin: 0;
   padding: 0;
 }
-.w1242 {
-  width: 1242px;
+li {
+  list-style: none;
+}
+.w1342 {
+  width: 1342px;
   margin: 0 auto;
 }
 </style>
