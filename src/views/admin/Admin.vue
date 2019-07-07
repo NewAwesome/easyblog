@@ -48,12 +48,12 @@ export default {
           '/admin/user': '用户管理',
           '/admin/category': '分类管理',
           '/admin/content': '博文管理'
-        },
-        '后台管理2': {
-          '/admin/user': '用户管理',
-          '/admin/category': '分类管理',
-          '/admin/content': '博文管理'
         }
+        // '后台管理2': {
+        //   '/admin/user': '用户管理',
+        //   '/admin/category': '分类管理',
+        //   '/admin/content': '博文管理'
+        // }
       },
       // 表示对应当前路由的li元素下标，用于给与active
       activeLi: '',
@@ -61,17 +61,21 @@ export default {
       navMatch: {
         '/admin/user': 1,
         '/admin/category': 2,
-        '/admin/category/add': 2,
+        '/admin/category/addCat': 2,
+        '/admin/category/editCat': 2,
         '/admin/content': 3,
-        '/admin/content/add': 3
+        '/admin/content/addCon': 3,
+        '/admin/content/editCon': 3
       },
       // 面包屑导航的路径名：中文名
       breadcrumpMatch: {
         '/admin/user': '用户管理',
         '/admin/category': '分类管理',
         '/admin/category/addCat': '添加分类',
+        '/admin/category/editCat': '修改分类',
         '/admin/content': '博文管理',
         '/admin/content/addCon': '添加博文',
+        '/admin/content/editCon': '修改博文',
         '/admin': '管理首页'
       }
     }
@@ -87,7 +91,6 @@ export default {
     const cHeight = document.documentElement.clientHeight
     this.$refs.container.style.cssText += 'height:' + cHeight + 'px;'
     // 路由及导航
-    console.log(this.$route.params)
   },
 
   methods: {

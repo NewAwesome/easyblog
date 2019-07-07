@@ -54,9 +54,9 @@
     </form>
     <div class="welcome"
          v-else>
-      <p>{{name}}，欢迎您</p>
-      <button type="button"
-              @click="goAdmin()">管理博客</button>
+      <p>{{name}}</p>
+      <h2>欢迎您</h2>
+      <base-button @click.native="goAdmin">管理博客</base-button>
     </div>
   </div>
 </template>
@@ -171,6 +171,24 @@ h3 {
     margin-left: 10px;
     color: #367fc9;
     background: #fff;
+  }
+}
+.welcome {
+  height: 260px;
+  padding: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  > p {
+    font-size: 26px;
+    color: #367fc9;
+    margin-top: 10px;
+  }
+  > h2 {
+    margin-bottom: 40px;
+  }
+  > button {
+    display: block;
+    margin: 0 auto;
   }
 }
 </style>

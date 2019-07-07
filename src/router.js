@@ -7,7 +7,10 @@ import Admin from './views/admin/Admin.vue'
 import Category from './views/admin/Category.vue'
 import Content from './views/admin/Content.vue'
 import User from './views/admin/User.vue'
-import Add from './views/admin/Add.vue'
+import AddCat from './views/admin/AddCat.vue'
+import AddCon from './views/admin/AddCon.vue'
+import EditCat from './views/admin/EditCat.vue'
+import EditCon from './views/admin/EditCon.vue'
 import Index from './views/admin/Index.vue'
 
 Vue.use(Router)
@@ -53,9 +56,13 @@ export default new Router({
       name: 'category',
       component: Category,
       children: [{
-        path: 'add',
+        path: 'addCat',
         name: 'category-add',
-        component: Add
+        component: AddCat
+      }, {
+        path: 'editCat',
+        name: 'category-edit',
+        component: EditCat
       }]
     },
     {
@@ -63,9 +70,13 @@ export default new Router({
       name: 'content',
       component: Content,
       children: [{
-        path: 'add',
+        path: 'addCon',
         name: 'content-add',
-        component: Add
+        component: AddCon
+      }, {
+        path: 'editCon',
+        name: 'content-edit',
+        component: EditCon
       }]
     }
     ]

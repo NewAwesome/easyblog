@@ -78,7 +78,7 @@ export default {
   margin-bottom: 50px;
   > .container {
     > .left-bar {
-      width: 70%;
+      width: 69%;
       box-sizing: border-box;
       float: left;
       background: #fff;
@@ -87,7 +87,7 @@ export default {
     > .right-bar {
       overflow: hidden;
       margin: 0 1%;
-      width: 28%;
+      width: 29%;
       box-sizing: border-box;
       float: right;
       background: #fff;

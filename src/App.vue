@@ -3,14 +3,24 @@
     <router-view />
   </div>
 </template>
-
+<script>
+// import MyButton from './components/MyButton'
+export default {
+  components: {
+    // MyButton: MyButton
+  }
+}
+</script>
 <style lang="scss">
-html {
+#app {
   background: #eee;
 }
 * {
   margin: 0;
   padding: 0;
+}
+dl {
+  margin-bottom: 0;
 }
 li {
   list-style: none;
