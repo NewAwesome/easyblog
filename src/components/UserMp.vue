@@ -63,6 +63,7 @@
 
 <script>
 // import store from '@/store'
+import jwt from 'jsonwebtoken'
 export default {
   name: 'UserMp',
   props: [''],
@@ -95,9 +96,8 @@ export default {
           if (res.data.success) {
             // 如果成功了
             sessionStorage.setItem('demo-token', res.data.token)
-            // this.name = 
-            alert(res.data.token)
-            this.haslogin = true
+            this.name = jwt.decode(res.data.token).name
+            this.hasLogin = true
           } else {
             // 登陆失败
             alert(res.data.info)
