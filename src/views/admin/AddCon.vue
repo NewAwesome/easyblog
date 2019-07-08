@@ -48,7 +48,7 @@ export default {
         {
           id: 3,
           name: 'PHP'
-        },
+        }
       ]
     }
   },

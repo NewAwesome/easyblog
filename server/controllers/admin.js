@@ -1,8 +1,8 @@
-const AdminService = require('../service/admin')
+const adminModel = require('../models/admin')
 
 module.exports = {
   getData: async (ctx, next) => {
-    let data = await AdminService.findByTitle('前端工程化')
+    let data = await adminModel.findByTitle('前端工程化')
     ctx.response.body = data
   }
 }

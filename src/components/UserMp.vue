@@ -86,14 +86,38 @@ export default {
 
   methods: {
     login () {
-      if (localStorage.getItem('name') === this.name && localStorage.getItem('password') === this.password) {
-        // store.commit("setUser", this.name)
-        // this.name = ''
-        // this.password = ''
-        this.hasLogin = true
-      } else {
-        alert('用户名或密码不正确！！')
+      let obj = {
+        name: this.name,
+        password: this.password
       }
+      this.$http.post('/auth/user', obj)
+        .then((res) => {
+          if (res.data.success) {
+            // 如果成功了
+            sessionStorage.setItem('demo-token', res.data.token)
+            // this.name = 
+            alert(res.data.token)
+            this.haslogin = true
+          } else {
+            // 登陆失败
+            alert(res.data.info)
+            sessionStorage.setItem('demo-token', null) // 将token清空
+          }
+        }, (err) => {
+          // 请求错误
+          alert(res.data.info)
+          sessionStorage.setItem('demo-token', null) // 将token清空
+        })
+
+      // old
+      // if (localStorage.getItem('name') === this.name && localStorage.getItem('password') === this.password) {
+      //   // store.commit("setUser", this.name)
+      //   // this.name = ''
+      //   // this.password = ''
+      //   this.hasLogin = true
+      // } else {
+      //   alert('用户名或密码不正确！！')
+      // }
     },
     reg () {
       this.isReg = true
