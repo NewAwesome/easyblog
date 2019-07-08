@@ -10,6 +10,6 @@ module.exports = {
     return data
   },
   getUserByName: async (name) => {
-    let data
+    let data = userModel.getUserByName(name)
   }
 }
