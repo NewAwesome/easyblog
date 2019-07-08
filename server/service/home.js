@@ -11,5 +11,6 @@ module.exports = {
   },
   getUserByName: async (name) => {
     let data = userModel.getUserByName(name)
+    console.log(1)
   }
 }
