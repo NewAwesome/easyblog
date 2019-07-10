@@ -33,7 +33,8 @@ export default {
   data () {
     return {
       categoryList: [],
-      currentCate: '首页'
+      currentCate: '首页',
+      currentDetail: {}
     }
   },
 
@@ -57,9 +58,19 @@ export default {
 
   },
 
-  methods: {},
+  methods: {
+    showDetail (param) {
+      this.currentDetail = param
+      this.$router.push('/home/detail')
+    }
+  },
 
-  watch: {}
+  watch: {
+    currentCate: function () {
+      let index = this.categoryList.indexOf(this.currentCate)
+      this.$router.push('/home/list/' + index)
+    }
+  }
 
 }
 

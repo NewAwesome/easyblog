@@ -17,7 +17,8 @@
 
 export default {
   name: 'vPagination',
-  props: ['allData'],
+  // 第二个prop值为true时表示数据是异步获取的。false时表示同步数据
+  props: ['allData', 'isAsync'],
   data () {
     return {
       numPerPage: 5,
@@ -33,15 +34,19 @@ export default {
   },
 
   beforeMount () {
-    let len = this.allData.length
-    this.pageNum = Math.ceil(len / this.numPerPage)
-    for (let i = (this.currentPage - 1) * this.numPerPage; i < this.currentPage * this.numPerPage; i++) {
-      this.currentData.push(this.allData[i])
+    if (!this.isAsync) {
+      let len = this.allData.length
+      this.pageNum = Math.ceil(len / this.numPerPage)
+      for (let i = (this.currentPage - 1) * this.numPerPage; i < this.currentPage * this.numPerPage; i++) {
+        this.currentData.push(this.allData[i])
+      }
     }
   },
 
   mounted () {
-    this.$emit('updateData', this.currentData)
+    if (!this.isAsync) {
+      this.$emit('updateData', this.currentData)
+    }
   },
 
   methods: {
@@ -67,6 +72,16 @@ export default {
         arr.push(this.allData[i])
       }
       this.currentData = arr
+      this.$emit('updateData', this.currentData)
+    },
+    // 监听父组件传来的数据，发生变化时就是父组件ajax拿到数据时
+    allData: function () {
+      let len = this.allData.length
+      this.pageNum = Math.ceil(len / this.numPerPage)
+      this.currentData = []
+      for (let i = (this.currentPage - 1) * this.numPerPage; i < this.currentPage * this.numPerPage && i < this.allData.length; i++) {
+        this.currentData.push(this.allData[i])
+      }
       this.$emit('updateData', this.currentData)
     }
   }

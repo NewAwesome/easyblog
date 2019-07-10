@@ -56,13 +56,15 @@
          v-else>
       <p>{{name}}</p>
       <h2>欢迎您</h2>
-      <base-button @click.native="goAdmin">管理博客</base-button>
+      <div class="btnsLogined">
+        <base-button @click.native="goAdmin">管理博客</base-button>
+        <base-button @click.native="quit">注销</base-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// import store from '@/store'
 import jwt from 'jsonwebtoken'
 export default {
   name: 'UserMp',
@@ -83,7 +85,14 @@ export default {
 
   beforeMount () { },
 
-  mounted () { },
+  mounted () {
+    const token = sessionStorage.getItem('demo-token')
+    if (token !== 'null' && token !== null) {
+      // alert('token存在')
+      this.name = jwt.decode(token).name
+      this.hasLogin = true
+    }
+  },
 
   methods: {
     login () {
@@ -98,6 +107,10 @@ export default {
             sessionStorage.setItem('demo-token', res.data.token)
             this.name = jwt.decode(res.data.token).name
             this.hasLogin = true
+            // vuex
+            this.$store.commit('changeUser', {
+              username: this.name
+            })
           } else {
             // 登陆失败
             alert(res.data.info)
@@ -153,6 +166,18 @@ export default {
     },
     goAdmin () {
       this.$router.push('/admin')
+    },
+    quit () {
+      this.hasLogin = false
+      this.name = ''
+      this.password = ''
+      this.repeat = ''
+      // vuex
+      this.$store.commit('changeUser', {
+        username: ''
+      })
+      // 清空sessionStorage
+      sessionStorage.setItem('demo-token', null)
     }
   },
 
@@ -213,7 +238,7 @@ h3 {
 }
 .welcome {
   height: 260px;
-  padding: 50px;
+  padding: 50px 0;
   box-sizing: border-box;
   text-align: center;
   > p {
@@ -228,5 +253,11 @@ h3 {
     display: block;
     margin: 0 auto;
   }
+}
+.btnsLogined {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
 }
 </style>

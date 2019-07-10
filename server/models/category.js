@@ -3,5 +3,8 @@ const categorySchema = require('../schema/categorySchema')
 
 let Category = mongoose.model('Category', categorySchema)
 module.exports = {
-  getCatList: () => Category.find()
+  getCatList: () => Category.find(),
+  getCatById: (id) => Category.find({
+    _id: id
+  })
 }

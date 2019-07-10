@@ -1,9 +1,17 @@
-// 引入koa-router
 const router = require('koa-router')()
-const AdminController = require('../controllers/admin')
-// 暴露为函数，该函数接收app为参数
+const adminController = require('../controllers/admin')
+
 module.exports = (app) => {
-  router.get('/admin', AdminController.getData)
-  // 给传入的app注册本路由
-  app.use(router.routes()).use(router.allowedMethods())
+  // 获取所有用户
+  router.get('/usrList', adminController.usrList)
+  // 获取所有分类
+  router.get('/catList', adminController.getCatList)
+  // 查询所有博文
+  router.get('/conList', adminController.getConList)
+
+  // 挂载到router实例对象上，同时会让所有的auth的请求路径前面加上'/auth'的请求路径
+  router.use('/manage', router.routes())
+
+  app.use(router.routes())
+    .use(router.allowedMethods())
 }

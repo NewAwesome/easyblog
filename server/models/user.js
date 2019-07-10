@@ -6,5 +6,6 @@ module.exports = {
   getUserByName: (name) => User.findOne({
     'username': name
   }),
-  insertUser: (user) => User.create(user)
+  insertUser: (user) => User.create(user),
+  getUserList: () => User.find()
 }

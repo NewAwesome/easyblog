@@ -1,115 +1,119 @@
 <template>
   <div class="blog-container">
-    <ul class="blog-list">
-      <li class="blog-li">
-        <h1>这里是标题这里是标题这里是标题</h1>
-        <h2>这里是正文概要</h2>
+    <ul class="blog-list"
+        v-show="info==''">
+
+      <li class="blog-li"
+          v-for="(item, index) in currentPage"
+          :key="index">
+        <h1>{{item.title}}</h1>
+        <h2>{{item.description}}</h2>
         <div class="blog-li-btm">
           <div class="left">
-            <span class="author">我是作者</span>
+            <span class="author">{{item.user}}</span>
             <span class="separate"></span>
-            <span class="cate">我是分类</span>
+            <span class="cate">{{item.category}}</span>
             <span class="separate"></span>
-            <span class="time">我是时间</span>
+            <span class="time">{{item.addtime}}</span>
           </div>
           <div class="right">
-            <span>阅读数 <span>17</span></span>
+            <span>阅读数 <span>{{item.num}}</span></span>
             <span class="separate"></span>
-            <span>评论数 <span>2</span></span>
+            <span>评论数 <span>{{item.comment.length}}</span></span>
           </div>
         </div>
         <div class="to-detail">
-          <a @click="showDetail()">查看详情>></a>
+          <a @click="showDetail(item)">查看详情>></a>
         </div>
       </li>
-      <li class="blog-li">
-        <h1>这里是标题这里是标题这里是标题</h1>
-        <h2>这里是正文概要</h2>
-        <div class="blog-li-btm">
-          <div class="left">
-            <span class="author">我是作者</span>
-            <span class="separate"></span>
-            <span class="cate">我是分类</span>
-            <span class="separate"></span>
-            <span class="time">我是时间</span>
-          </div>
-          <div class="right">
-            <span>阅读数 <span>17</span></span>
-            <span class="separate"></span>
-            <span>评论数 <span>2</span></span>
-          </div>
-        </div>
-        <div class="to-detail">
-          <a>查看详情>></a>
-        </div>
-      </li>
-      <li class="blog-li">
-        <h1>这里是标题这里是标题这里是标题</h1>
-        <h2>这里是正文概要</h2>
-        <div class="blog-li-btm">
-          <div class="left">
-            <span class="author">我是作者</span>
-            <span class="separate"></span>
-            <span class="cate">我是分类</span>
-            <span class="separate"></span>
-            <span class="time">我是时间</span>
-          </div>
-          <div class="right">
-            <span>阅读数 <span>17</span></span>
-            <span class="separate"></span>
-            <span>评论数 <span>2</span></span>
-          </div>
-        </div>
-        <div class="to-detail">
-          <a>查看详情>></a>
-        </div>
-      </li>
+
+      <div class="pagination">
+        <v-pagination :allData="currentList"
+                      :isAsync="true"
+                      @updateData="pageData"></v-pagination>
+      </div>
     </ul>
-    <div class="pagination">
-      1 2 3 4 5 6 7 8 9
-    </div>
+    <h3 v-show="info!=''">{{info}}</h3>
   </div>
 </template>
 
 <script>
+import vPagination from '../../components/Pagination'
 
 export default {
   name: '',
   props: [''],
   data () {
     return {
-
+      // 当前分类下的全部数据
+      currentList: [],
+      // 当前分页下的数据
+      currentPage: [],
+      currentId: '-1',
+      info: ''
     }
   },
 
-  components: {},
+  components: { vPagination: vPagination },
 
   computed: {},
 
   created () {
-    // this.$http.get('/auth/', {
-    //   params: {
-    //     id:
-    //   }
-    // })
-    //   .then((res) => {
-
-    //   }, (err) => {
-
-    //   })
+    this.currentId = this.$route.params.id
+    this.$http.get('/auth/specCatList', {
+      params: {
+        id: this.currentId
+      }
+    })
+      .then((res) => {
+        if (res.data.success) {
+          this.currentList = res.data.data
+        } else {
+          this.info = res.data.info
+        }
+      }, (err) => {
+        this.info = '数据库连接错误'
+      })
   },
 
   beforeMount () { },
 
-  mounted () { },
+  mounted () {
+  },
 
   methods: {
-    showDetail: function () {
+    showDetail: function (item) {
+      this.$store.commit('changeCDetail', {
+        detail: item
+      })
       this.$router.push('/home/detail')
+    },
+    pageData (val) {
+      this.currentPage = val
     }
   },
 
-  watch: {}
+  watch: {
+    '$route.params' (to, from) {
+      this.currentId = this.$route.params.id
+      this.$http.get('/auth/specCatList', {
+        params: {
+          id: this.currentId
+        }
+      })
+        .then((res) => {
+          if (res.data.success) {
+            this.currentList = res.data.data
+            this.info = ''
+          } else {
+            this.currentList = []
+            this.info = res.data.info
+          }
+        }, (err) => {
+          this.info = '数据库连接错误'
+        })
+    }
+  }
 
 }
 

@@ -12,7 +12,7 @@
         <tbody>
           <tr v-for="(item, index) in currentData"
               :key="index">
-            <td>{{item.id}}</td>
+            <td>{{item._id}}</td>
             <td>{{item.name}}</td>
             <td>
               <router-link :to="{path:'/admin/category/editCat',query:{id:item.id}}">修改</router-link> | <i @click="modalDelete(index)">删除</i>
@@ -38,24 +38,7 @@ export default {
   data () {
     return {
       routeFlag: true,
-      currentData: [
-        {
-          id: 1,
-          name: 'JavaScript'
-        }, {
-          id: 2,
-          name: 'Python'
-        }, {
-          id: 3,
-          name: 'Java'
-        }, {
-          id: 4,
-          name: 'PHP'
-        }, {
-          id: 5,
-          name: 'C++'
-        }
-      ],
+      currentData: [],
       showDialog: false,
       dialogOption: {
         title: '删除确认',
@@ -71,7 +54,14 @@ export default {
   },
 
   computed: {},
-
+  created () {
+    this.$http.get('/manage/catList')
+      .then((res) => {
+        if (res.data.success) {
+          this.currentData = res.data.data
+        }
+      })
+  },
   beforeMount () { },
 
   mounted () { },

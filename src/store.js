@@ -8,10 +8,16 @@ Vue.use(Vuex)
  */
 export default new Vuex.Store({
   state: {
-
+    user: '',
+    currentDetail: {}
   },
   mutations: {
-
+    changeUser (state, payload) {
+      state.user = payload.username
+    },
+    changeCDetail (state, payload) {
+      state.currentDetail = payload.detail
+    }
   },
   actions: {
 

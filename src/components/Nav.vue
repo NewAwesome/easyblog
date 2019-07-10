@@ -2,6 +2,8 @@
   <div class="home-nav">
     <ul class="home-nav-ul">
       <li class="home-nav-li"
+          @click="index()">首页</li>
+      <li class="home-nav-li"
           v-for="(item, index) in categories"
           :key="index"
           @click="toggle(item)">
@@ -33,6 +35,9 @@ export default {
   methods: {
     toggle (cat) {
       this.$emit('toggle-cat', cat)
+    },
+    index () {
+      this.$emit('toggle-cat', '首页')
     }
   },
 

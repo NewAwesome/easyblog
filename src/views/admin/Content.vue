@@ -16,12 +16,12 @@
         <tbody>
           <tr v-for="(item, index) in currentData"
               :key="index">
-            <td>{{item.id}}</td>
+            <td>{{item._id}}</td>
             <td>{{item.title}}</td>
             <td>{{item.category}}</td>
-            <td>{{item.author}}</td>
-            <td>{{item.time}}</td>
-            <td>{{item.reading}}</td>
+            <td>{{item.user}}</td>
+            <td>{{item.addtime}}</td>
+            <td>{{item.num}}</td>
             <td>
               <router-link :to="{path:'/admin/content/editCon',query:{id:item.id}}">修改</router-link> | <i @click="modalDelete(index)">删除</i>
             </td>
@@ -30,6 +30,7 @@
       </table>
       <base-button @click.native="routeToAdd">新增博文</base-button>
       <v-pagination :allData="allData"
+                    :isAsync="true"
                     @updateData="pageData"></v-pagination>
     </div>
     <router-view v-else></router-view>
@@ -49,140 +50,7 @@ export default {
   data () {
     return {
       routeFlag: true,
-      allData: [
-        {
-          id: 1,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        },
-        {
-          id: 2,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        },
-        {
-          id: 3,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        },
-        {
-          id: 4,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        },
-        {
-          id: 5,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        },
-        {
-          id: 6,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 7,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 8,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 9,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 10,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 11,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 12,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 13,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 14,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 15,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 16,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 17,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }, {
-          id: 18,
-          title: '鲁滨逊漂流记',
-          category: '3',
-          author: 'admin',
-          time: '2019-11-20',
-          reading: '110'
-        }
-      ],
+      allData: [],
       currentData: [],
       showDialog: false,
       dialogOption: {
@@ -198,6 +66,14 @@ export default {
     'modal-delete': ModalDelete
   },
 
+  created () {
+    this.$http.get('/manage/conList')
+      .then((res) => {
+        if (res.data.success) {
+          this.allData = res.data.data
+        }
+      })
+  },
   computed: {},
 
   beforeMount () { },

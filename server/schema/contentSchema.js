@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 var contentSchema = new mongoose.Schema({
   id: Number,
   title: String,
-  category: Number,
+  category: String,
   num: Number,
   user: String,
   comment: [{

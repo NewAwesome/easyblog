@@ -12,16 +12,17 @@
       <tbody>
         <tr v-for="(item, index) in currentData"
             :key="index">
-          <td>{{item.id}}</td>
-          <td>{{item.name}}</td>
+          <td>{{item._id}}</td>
+          <td>{{item.username}}</td>
           <td>{{item.password}}</td>
-          <td>{{item.isAdmin}}</td>
+          <td>{{item.isadmin}}</td>
         </tr>
       </tbody>
     </table>
     <!-- <button class="add-user"
             type="button">添加用户</button> -->
     <v-pagination :allData="userList"
+                  :isAsync="true"
                   @updateData="pageData"></v-pagination>
   </div>
 </template>
@@ -34,89 +35,7 @@ export default {
   props: [''],
   data () {
     return {
-      userList: [
-        {
-          id: 1,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 2,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 3,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 4,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 5,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 6,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 7,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 8,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 9,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 10,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 11,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 12,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 13,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 14,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 15,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }, {
-          id: 16,
-          name: 'admin',
-          password: 'admin',
-          isAdmin: true
-        }
-      ],
+      userList: [],
       currentData: []
     }
   },
@@ -126,6 +45,15 @@ export default {
   },
 
   computed: {},
+
+  created () {
+    this.$http.get('/manage/usrList')
+      .then((res) => {
+        if (res.data.success) {
+          this.userList = res.data.data
+        }
+      })
+  },
 
   beforeMount () { },
 

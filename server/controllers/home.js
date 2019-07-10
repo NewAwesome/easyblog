@@ -2,19 +2,87 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const userModel = require('../models/user')
 const categoryModel = require('../models/category')
+const contentModel = require('../models/content')
 
 module.exports = {
   index: async (ctx, next) => {
     ctx.response.body = `<h1>index page</h1>`
   },
   home: async (ctx, next) => {
-    console.log(ctx.request.query)
-    console.log(ctx.request.querystring)
     ctx.response.body = '<h1>HOME page</h1>'
   },
   homeParams: async (ctx, next) => {
-    console.log(ctx.params)
     ctx.response.body = '<h1>HOME page /:id/:name</h1>'
+  },
+  // 添加评论
+  addComment: async (ctx, next) => {
+    // post请求数据在request的body体
+    const data = ctx.request.body
+    let specContent = await contentModel.update(data.id, data.comment)
+    if (specContent.ok !== null) {
+      // 成功
+      ctx.response.body = {
+        success: true,
+        info: '评论成功',
+        data: specContent
+      }
+    } else {
+      ctx.response.body = {
+        success: false,
+        info: '评论失败'
+      }
+    }
+  },
+  // getConListByCat 根据类型id获取对应的全部文章
+  getConListByCat: async (ctx, next) => {
+    let index = parseInt(ctx.query.id)
+    let catList = await categoryModel.getCatList()
+    if (index == -1) {
+      let rs = await contentModel.getContentAll()
+      if (rs !== null) {
+        rs = rs.map(item => {
+          // item.category 处理一下下
+          catList.forEach(cat => {
+            if (cat._id == item.category) {
+              item.category = cat.name
+            }
+          })
+          return item
+        })
+        ctx.response.body = {
+          success: true,
+          data: rs
+        }
+      } else {
+        ctx.response.body = {
+          success: false,
+          info: '暂无文章'
+        }
+      }
+    } else {
+      let id = catList[index]['_id']
+      let rs = await contentModel.getContentByCatId(id)
+      if (rs != false) {
+        rs = rs.map(item => {
+          // item.category 处理一下下
+          catList.forEach(cat => {
+            if (cat._id == item.category) {
+              item.category = cat.name
+            }
+          })
+          return item
+        })
+        ctx.response.body = {
+          success: true,
+          data: rs
+        }
+      } else {
+        ctx.response.body = {
+          success: false,
+          info: '该分类暂无文章'
+        }
+      }
+    }
   },
   // getCatList
   getCatList: async (ctx, next) => {
@@ -60,7 +128,7 @@ module.exports = {
       } else {
         ctx.response.body = {
           success: false,
-          info: '数据库连接出错！'
+          info: '数据库插入出错！'
         }
       }
     }

@@ -25,9 +25,9 @@ export default new Router({
     path: '/home',
     name: 'home',
     component: Home,
-    redirect: 'home/list',
+    redirect: 'home/list/-1',
     children: [{
-      path: 'list',
+      path: 'list/:id',
       name: 'list',
       component: List
     }, {
