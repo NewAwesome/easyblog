@@ -86,6 +86,19 @@ export default {
 
   computed: {},
 
+  created () {
+    // this.$http.get('/auth/', {
+    //   params: {
+    //     id:
+    //   }
+    // })
+    //   .then((res) => {
+
+    //   }, (err) => {
+
+    //   })
+  },
+
   beforeMount () { },
 
   mounted () { },

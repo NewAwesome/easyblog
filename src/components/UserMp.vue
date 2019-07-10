@@ -124,12 +124,26 @@ export default {
     },
     addUser () {
       if (this.password === this.repeat) {
-        localStorage.setItem('name', this.name)
-        localStorage.setItem('password', this.password)
-        this.name = ''
-        this.password = ''
-        this.repeat = ''
-        this.isReg = false
+        let obj = {
+          username: this.name,
+          password: this.password,
+          isadmin: false
+        }
+        this.$http.post('/auth/user/register', obj)
+          .then((res) => {
+            if (res.data.success) {
+              alert(res.data.info)
+              this.name = ''
+              this.password = ''
+              this.repeat = ''
+              this.isReg = false
+            } else {
+              alert(res.data.info)
+            }
+          })
+        // localStorage.setItem('name', this.name)
+        // localStorage.setItem('password', this.password)
+
       } else {
         alert('两次输入的密码不一致')
       }

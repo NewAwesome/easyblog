@@ -46,10 +46,10 @@ router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('demo-token')
   if (to.path.match(/^\/admin/g) !== null) {
     if (token !== 'null' && token !== null) {
-      alert('token存在')
+      // alert('token存在')
       next() // 如果有token就正常转向
     } else {
-      alert('token不存在')
+      // alert('token不存在')
       next('/') // 否则跳转回登录页
     }
   } else {

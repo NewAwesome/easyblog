@@ -1,8 +1,7 @@
-// const homeService = require('../service/home')
-// const jwtKoa = require('koa-jwt')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const userModel = require('../models/user')
+const categoryModel = require('../models/category')
 
 module.exports = {
   index: async (ctx, next) => {
@@ -17,33 +16,60 @@ module.exports = {
     console.log(ctx.params)
     ctx.response.body = '<h1>HOME page /:id/:name</h1>'
   },
-  login: async (ctx, next) => {
-    ctx.response.body =
-      `
-      <form action="/auth/user" method="post">
-        <input name="name" type="text" placeholder="请输入用户名：ikcamp"/> 
-        <br/>
-        <input name="password" type="text" placeholder="请输入密码：123456"/>
-        <br/> 
-        <button>GoGoGo</button>
-      </form>
-    `
+  // getCatList
+  getCatList: async (ctx, next) => {
+    let rs = await categoryModel.getCatList()
+    if (rs !== null) {
+      rs = rs.map(obj => {
+        return obj.name
+      })
+      ctx.response.body = {
+        success: true,
+        data: rs
+      }
+    } else {
+      ctx.response.body = {
+        success: false,
+        info: '无法查询到结果'
+      }
+    }
   },
-  // register: async (ctx, next) => {
-  //   let {
-  //     name,
-  //     password
-  //   } = ctx.request.body
-  //   let data = await homeService.register(name, password)
-  //   ctx.response.body = data
-  // },
+  // register
+  register: async (ctx, next) => {
+    const data = ctx.request.body
+    // // 先手动标注不是管理员
+    // data.isadmin = false
+    // 首先判断一下该用户名是否存在
+    let userInfo = await userModel.getUserByName(data.username)
+    if (userInfo !== null) {
+      ctx.response.body = {
+        success: false,
+        info: '该用户名已存在！'
+      }
+    } else {
+      // 对新注册用户的密码进行加密
+      const salt = bcrypt.genSaltSync(10)
+      data.password = bcrypt.hashSync(data.password, salt)
+      // 进行插入新用户完成注册
+      let insertRs = await userModel.insertUser(data)
+      if (insertRs !== null) {
+        ctx.response.body = {
+          success: true,
+          info: '注册成功！'
+        }
+      } else {
+        ctx.response.body = {
+          success: false,
+          info: '数据库连接出错！'
+        }
+      }
+    }
+  },
   // login
   postUserAuth: async (ctx, next) => {
     // post请求数据在request的body体
     const data = ctx.request.body
     let userInfo = await userModel.getUserByName(data.name)
-    console.log(data.name)
-    console.log(userInfo)
     if (userInfo != null) { // 如果查无此用户会返回null
       if (!bcrypt.compareSync(data.password, userInfo.password)) {
         ctx.response.body = {

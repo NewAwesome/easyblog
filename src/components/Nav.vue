@@ -3,7 +3,8 @@
     <ul class="home-nav-ul">
       <li class="home-nav-li"
           v-for="(item, index) in categories"
-          :key="index">
+          :key="index"
+          @click="toggle(item)">
         {{item}}
       </li>
     </ul>
@@ -29,7 +30,11 @@ export default {
 
   mounted () { },
 
-  methods: {},
+  methods: {
+    toggle (cat) {
+      this.$emit('toggle-cat', cat)
+    }
+  },
 
   watch: {}
 

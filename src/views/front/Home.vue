@@ -5,7 +5,8 @@
            alt="">
       <div class="nav">
         <div class="nav-container w1342">
-          <home-nav :categories="categoryList"></home-nav>
+          <home-nav :categories="categoryList"
+                    @toggle-cat="currentCate = $event"></home-nav>
         </div>
       </div>
     </div>
@@ -31,7 +32,8 @@ export default {
   props: [''],
   data () {
     return {
-      categoryList: ['首页', 'JavaScript', 'Java', 'Python']
+      categoryList: [],
+      currentCate: '首页'
     }
   },
 
@@ -39,7 +41,14 @@ export default {
     'home-nav': Nav,
     'user-mp': UserMp
   },
-
+  created () {
+    this.$http.get('/auth/catList')
+      .then((res) => {
+        if (res.data.success) {
+          this.categoryList = res.data.data
+        }
+      })
+  },
   computed: {},
 
   beforeMount () { },
