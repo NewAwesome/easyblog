@@ -2,6 +2,12 @@ const router = require('koa-router')()
 const adminController = require('../controllers/admin')
 
 module.exports = (app) => {
+  // 新增类型
+  router.post('/addCat', adminController.addCat)
+  // 根据id删除类型
+  router.post('/deleteCat', adminController.deleteById)
+  // 根据id修改类型
+  router.post('/updateCat', adminController.updateCatById)
   // 获取所有用户
   router.get('/usrList', adminController.usrList)
   // 获取所有分类

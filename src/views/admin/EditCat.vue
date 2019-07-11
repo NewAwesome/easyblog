@@ -2,7 +2,7 @@
   <div>
     <h3>分类名称</h3>
     <input type="text"
-           :value="$route.query.id">
+           v-model="catName">
     <div class="btns">
       <base-button @click.native="confirmEdit">修改分类</base-button>
       <base-button @click.native="cancel">取消</base-button>
@@ -14,10 +14,10 @@
 
 export default {
   name: '',
-  props: [''],
+  props: ['catData'],
   data () {
     return {
-
+      catName: ''
     }
   },
 
@@ -27,12 +27,32 @@ export default {
 
   beforeMount () { },
 
-  mounted () { },
+  mounted () {
+    this.catName = this.$route.query.name
+  },
 
   methods: {
     confirmEdit () {
-      // 先进行对分类的修改操作，后跳转即可
-      this.$router.push('/admin/category')
+      this.$http.post('/manage/updateCat', {
+        id: this.$route.query.id,
+        name: this.catName
+      })
+        .then((res) => {
+          if (res.data.success) {
+            // 修改成功
+            // 循环遍历修改前台数据
+            this.$emit('edit-cat', { id: this.$route.query.id, name: res.data.data })
+            // 先进行对分类的修改操作，后跳转即可
+            this.$router.push('/admin/category')
+
+          } else {
+            // 修改失败
+            alert(res.data.info)
+            // 先进行对分类的修改操作，后跳转即可
+            // this.$router.push('/admin/category')
+          }
+        })
+
     },
     cancel () {
       this.$router.push('/admin/category')

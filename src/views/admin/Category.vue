@@ -15,14 +15,17 @@
             <td>{{item._id}}</td>
             <td>{{item.name}}</td>
             <td>
-              <router-link :to="{path:'/admin/category/editCat',query:{id:item.id}}">修改</router-link> | <i @click="modalDelete(index)">删除</i>
+              <router-link :to="{path:'/admin/category/editCat',query:{id:item._id,name:item.name}}">修改</router-link> | <i @click="modalDelete(index,item)">删除</i>
             </td>
           </tr>
         </tbody>
       </table>
       <base-button @click.native="routeToAdd">新增分类</base-button>
     </div>
-    <router-view v-else></router-view>
+    <router-view v-else
+                 :catData="currentData"
+                 @edit-cat="editCat"
+                 @add-cat="addCat"></router-view>
     <modal-delete v-show="showDialog"
                   :dialog-option="dialogOption"
                   ref="dialog">
@@ -67,17 +70,40 @@ export default {
   mounted () { },
 
   methods: {
-    modalDelete (index) {
+    modalDelete (index, item) {
       this.showDialog = true
       this.$refs.dialog.confirm().then(() => {
         this.showDialog = false
-        this.currentData.splice(index, 1)
+        // 后台删除
+        this.$http.post('/manage/deleteCat', {
+          id: item._id
+        })
+          .then(res => {
+            if (res.data.success) {
+              // 前台删除
+              this.currentData.splice(index, 1)
+            } else {
+              alert('删除失败')
+            }
+          })
       }).catch(() => {
         this.showDialog = false
       })
     },
     routeToAdd () {
       this.$router.push('/admin/category/addCat')
+    },
+    // 子组件edit后 触发自定义事件
+    editCat (params) {
+      for (let item of this.currentData) {
+        if (item._id == params.id) {
+          item.name = params.name
+          break
+        }
+      }
+    },
+    addCat (params) {
+      this.currentData.push(params)
     }
   },
   watch: {

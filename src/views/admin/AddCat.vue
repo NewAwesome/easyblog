@@ -2,6 +2,7 @@
   <div>
     <h3>分类名称</h3>
     <input type="text"
+           v-model="catname"
            placeholder="请输入分类名称">
     <base-button @click.native="addCat">新增分类</base-button>
   </div>
@@ -10,10 +11,10 @@
 <script>
 export default {
   name: '',
-  props: [''],
+  props: ['catData'],
   data () {
     return {
-
+      catname: ''
     }
   },
 
@@ -27,8 +28,22 @@ export default {
 
   methods: {
     addCat () {
-      // 先进行对分类的增加操作，后跳转即可
-      this.$router.push('/admin/category')
+      this.$http.post('/manage/addCat', {
+        name: this.catname
+      })
+        .then(res => {
+          if (res.data.success) {
+            // emit
+            this.$emit('add-cat', res.data.data)
+            // 清空输入框
+            this.catname = ''
+            // 先进行对分类的增加操作，后跳转即可
+            this.$router.push('/admin/category')
+          } else {
+            alert(res.data.info)
+          }
+        })
+
     }
   },
 
