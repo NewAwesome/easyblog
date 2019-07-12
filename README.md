@@ -6,13 +6,13 @@
 yarn install
 ```
 
-### 启动前台服务器
+### 启动前台服务器（默认8080
 
 ```
 yarn run serve
 ```
 
-### 启动后台服务器
+### 启动后台服务器（默认3000
 
 ```
 yarn run back
@@ -32,15 +32,16 @@ yarn run build
 
 - 用户表 users：字段结构 
 ```
-_id,username(String),password(String),isadmin(Boolean)
+_id , username(String) , password(String) , isadmin(Boolean)
 ```
 - 博文表 contents：字段结构 
 ```
-_id,title(String),category(String),num(Number),user(String),comment(Array 每条评论结构{comment(String),user(String),time(String)}),addtime(String),description(String),composition(String)
+_id , title(String) , category(String) , num(Number) , user(String) , comment(Array 每条评论结构
+{comment(String) , user(String) , time(String)} ) , addtime(String) , description(String) , composition(String)
 ```
 - 分类表 categories：字段结构 
 ```
-_id,name(String)
+_id , name(String)
 ```
 
 # 三、项目介绍
