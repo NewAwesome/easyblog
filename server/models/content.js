@@ -14,5 +14,20 @@ module.exports = {
     }
   }, {
     new: true
-  })
+  }),
+  delete: (id) => Content.deleteOne({
+    _id: id
+  }),
+  // 后台修改博文
+  updateCon: (data) => Content.findByIdAndUpdate(data.id, {
+    $set: {
+      title: data.title,
+      category: data.category,
+      description: data.description,
+      composition: data.composition
+    }
+  }, {
+    new: true
+  }),
+  add: (data) => Content.create(data)
 }

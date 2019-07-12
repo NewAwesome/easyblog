@@ -23,7 +23,7 @@
             type="button">添加用户</button> -->
     <v-pagination :allData="userList"
                   :isAsync="true"
-                  @updateData="pageData"></v-pagination>
+                  @update-data="pageData"></v-pagination>
   </div>
 </template>
 

@@ -30,7 +30,7 @@
       <div class="pagination">
         <v-pagination :allData="currentList"
                       :isAsync="true"
-                      @updateData="pageData"></v-pagination>
+                      @update-data="pageData"></v-pagination>
       </div>
     </ul>
     <h3 v-show="info!=''">{{info}}</h3>

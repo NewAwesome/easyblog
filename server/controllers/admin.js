@@ -91,5 +91,56 @@ module.exports = {
         info: '添加失败'
       }
     }
+  },
+  deleteConById: async (ctx, next) => {
+    const data = ctx.request.body
+    let rs = await contentModel.delete(data.id)
+    console.log(rs)
+    if (rs !== null) {
+      ctx.response.body = {
+        success: true
+      }
+    } else {
+      ctx.response.body = {
+        success: false,
+        info: '删除失败'
+      }
+    }
+  },
+  updateConById: async (ctx, next) => {
+    const data = ctx.request.body
+    let rs = await contentModel.updateCon(data)
+    if (rs !== null) {
+      ctx.response.body = {
+        success: true,
+        data: {
+          id: rs._id,
+          title: rs.title,
+          category: rs.category,
+          description: rs.description,
+          composition: rs.composition
+        }
+      }
+    } else {
+      ctx.response.body = {
+        success: false,
+        info: '更新失败'
+      }
+    }
+  },
+  addCon: async (ctx, next) => {
+    const data = ctx.request.body
+    let rs = await contentModel.add(data)
+    if (rs !== null) {
+      ctx.response.body = {
+        success: true,
+        data: rs
+      }
+    } else {
+      ctx.response.body = {
+        success: false,
+        info: '添加失败'
+      }
+    }
   }
 }

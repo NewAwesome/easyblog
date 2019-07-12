@@ -2,6 +2,12 @@ const router = require('koa-router')()
 const adminController = require('../controllers/admin')
 
 module.exports = (app) => {
+  // 新增博文
+  router.post('/addCon', adminController.addCon)
+  // 修改博文
+  router.post('/updateCon', adminController.updateConById)
+  // 删除博文
+  router.post('/deleteCon', adminController.deleteConById)
   // 新增类型
   router.post('/addCat', adminController.addCat)
   // 根据id删除类型

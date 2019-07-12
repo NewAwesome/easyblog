@@ -18,7 +18,7 @@
 export default {
   name: 'vPagination',
   // 第二个prop值为true时表示数据是异步获取的。false时表示同步数据
-  props: ['allData', 'isAsync'],
+  props: ['allData', 'isAsync', 'npp'],
   data () {
     return {
       numPerPage: 5,
@@ -30,23 +30,22 @@ export default {
 
   components: {},
 
-  computed: {
-  },
+  computed: {},
 
-  beforeMount () {
+  beforeMount () { },
+
+  mounted () {
     if (!this.isAsync) {
+      // 同步数据会执行这里
       let len = this.allData.length
       this.pageNum = Math.ceil(len / this.numPerPage)
       for (let i = (this.currentPage - 1) * this.numPerPage; i < this.currentPage * this.numPerPage; i++) {
         this.currentData.push(this.allData[i])
       }
+      this.$emit('update-data', this.currentData)
     }
-  },
-
-  mounted () {
-    if (!this.isAsync) {
-      this.$emit('updateData', this.currentData)
-    }
+    // 若调用者传入了npp值，那就使用npp作为每页显示条数
+    this.numPerPage = this.npp ? this.npp : this.numPerPage
   },
 
   methods: {
@@ -72,17 +71,24 @@ export default {
         arr.push(this.allData[i])
       }
       this.currentData = arr
-      this.$emit('updateData', this.currentData)
+      this.$emit('update-data', this.currentData)
+      // 开放当前页码和每页条数给调用者
+      this.$emit('receive-page-info', { currentPage: this.currentPage, numPerPage: this.numPerPage })
     },
     // 监听父组件传来的数据，发生变化时就是父组件ajax拿到数据时
-    allData: function () {
-      let len = this.allData.length
-      this.pageNum = Math.ceil(len / this.numPerPage)
-      this.currentData = []
-      for (let i = (this.currentPage - 1) * this.numPerPage; i < this.currentPage * this.numPerPage && i < this.allData.length; i++) {
-        this.currentData.push(this.allData[i])
+    allData: {
+      immediate: true,
+      handler: function () {
+        // 如果是同步数据，不走这里
+        if (!this.isAsync) return
+        let len = this.allData.length
+        this.pageNum = Math.ceil(len / this.numPerPage)
+        this.currentData = []
+        for (let i = (this.currentPage - 1) * this.numPerPage; i < this.currentPage * this.numPerPage && i < this.allData.length; i++) {
+          this.currentData.push(this.allData[i])
+        }
+        this.$emit('update-data', this.currentData)
       }
-      this.$emit('updateData', this.currentData)
     }
   }
 

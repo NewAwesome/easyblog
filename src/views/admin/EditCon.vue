@@ -2,17 +2,20 @@
   <div>
     <h3>博文标题</h3>
     <input type="text"
+           v-model="title"
            placeholder="请填写博文名称">
     <h3>请选择分类</h3>
     <select name=""
+            v-model="category"
             class="select-cat"
             id="">
-      <option v-for="(item, index) in categories"
+      <option v-for="(item, index) in catData"
               :key="index"
-              value="">{{item.name}}</option>
+              :value="item.name">{{item.name}}</option>
     </select>
     <h3>请填写简介</h3>
     <textarea name=""
+              v-model="description"
               class="text-desc"
               id=""
               cols="30"
@@ -20,6 +23,7 @@
               placeholder="请输入内容简介"></textarea>
     <h3>请填写正文</h3>
     <textarea name=""
+              v-model="composition"
               class="text-comp"
               id=""
               cols="30"
@@ -36,23 +40,16 @@
 
 export default {
   name: '',
-  props: [''],
+  props: ['conData', 'catData'],
   data () {
     return {
-      categories: [
-        {
-          id: 1,
-          name: 'JavaScript'
-        },
-        {
-          id: 2,
-          name: 'Python'
-        },
-        {
-          id: 3,
-          name: 'PHP'
-        }
-      ]
+      id: this.$route.query.id,
+      title: '',
+      category: '',
+      description: '',
+      composition: '',
+      // 当前处理的category id
+      catId: ''
     }
   },
 
@@ -62,22 +59,67 @@ export default {
 
   beforeMount () { },
 
-  mounted () { },
+  mounted () {
+    this.conData.some((item, index) => {
+      if (item._id == this.$route.query.id) {
+        // 设置cat id
+        this.catId = item.category
+        // 设置表单待修改数据
+        this.category = item.catName
+        this.title = item.title
+        this.description = item.description
+        this.composition = item.composition
+        return true
+      }
+    })
+  },
 
   methods: {
     addCon () {
       this.$router.push('/admin/content')
     },
     confirmEdit () {
-      // 先进行对分类的修改操作，后跳转即可
-      this.$router.push('/admin/content')
+      this.$http.post('/manage/updateCon', {
+        id: this.id,
+        title: this.title,
+        category: this.catId,
+        description: this.description,
+        composition: this.composition
+      })
+        .then((res) => {
+          if (res.data.success) {
+            // 修改成功
+            // 给data加入this.catName中文分类名
+            res.data.data.catName = this.category
+            // 循环遍历修改前台数据
+            this.$emit('edit-con', res.data.data)
+            // 先进行对分类的修改操作，后跳转即可
+            this.$router.push('/admin/content')
+
+          } else {
+            // 修改失败
+            alert(res.data.info)
+            // 先进行对分类的修改操作，后跳转即可
+            // this.$router.push('/admin/category')
+          }
+        })
     },
     cancel () {
       this.$router.push('/admin/content')
     }
   },
 
-  watch: {}
+  watch: {
+    category: function () {
+      this.catData.some((item, index) => {
+        if (item.name == this.category) {
+          // 设置cat id
+          this.catId = item._id
+          return true
+        }
+      })
+    }
+  }
 
 }
 
