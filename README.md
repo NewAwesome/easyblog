@@ -45,6 +45,7 @@ _id , name(String)
 ```
 
 # 三、目录结构
+```
 |-- easyblog
   |-- public 文件夹：vue-cli生成，是vue页面的最外层框子
   |-- server 文件夹：nodejs后端
@@ -64,7 +65,7 @@ _id , name(String)
     |-- store.js vuex
   |-- app.js koa入口文件
   |-- vue.config.js
-
+```
 # 四、项目介绍
 
 该项目分为前台和后台。是一个简易博客
