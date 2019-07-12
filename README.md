@@ -47,26 +47,23 @@ _id , name(String)
 # 三、目录结构
 ```
 |-- easyblog
-  |-- public 文件夹：vue-cli生成，是vue页面的最外层框子
-  
-  |-- server 文件夹：nodejs后端
-    |-- config 文件夹：配置文件
-      |-- db.js mongodb数据库配置文件
-    |-- controllers 文件夹：后端业务逻辑全部放在这里
-    |-- models 文件夹：mongoose直接对数据库进行操作的地方
-    |-- routes 文件夹：koa-router路由配置层
-    |-- schema 文件夹：mongoose schema层（类似mysql使用时的表结构定义）
-    
-  |-- src vue前端
-    |-- assets 文件夹：存放资源文件
-    |-- components 文件夹：存放vue组件
-    |-- views 文件夹：vue文件页面
+  |-- public                  文件夹：vue-cli生成，是vue页面的最外层框子
+  |-- server                  文件夹：nodejs后端
+    |-- config                文件夹：配置文件
+      |-- db.js               mongodb数据库配置文件
+    |-- controllers           文件夹：后端业务逻辑全部放在这里
+    |-- models                文件夹：mongoose直接对数据库进行操作的地方
+    |-- routes                文件夹：koa-router路由配置层
+    |-- schema                文件夹：mongoose schema层（类似mysql使用时的表结构定义） 
+  |-- src                     vue前端
+    |-- assets                文件夹：存放资源文件
+    |-- components            文件夹：存放vue组件
+    |-- views                 文件夹：vue文件页面
     |-- App.vue 
-    |-- main.js vue入口文件
-    |-- router.js vue-router
-    |-- store.js vuex
-    
-  |-- app.js koa入口文件
+    |-- main.js               vue入口文件
+    |-- router.js             vue-router
+    |-- store.js              vuex
+  |-- app.js                  koa入口文件
   |-- vue.config.js
 ```
 # 四、项目介绍
