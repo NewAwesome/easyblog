@@ -5,8 +5,15 @@ import store from './store'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 
-// 注册全局Axios为$http
 import Axios from 'axios'
+// Test：表格
+// import Echarts from 'vue-echarts'
+// import 'echarts/lib/chart/bar'
+// import 'echarts/lib/component/tooltip'
+// import 'echarts-gl'
+// Vue.component(('v-chart', Echarts))
+
+// 注册全局Axios为$http
 Vue.prototype.$http = Axios
 
 // 基础Base组件的自动化全局注册

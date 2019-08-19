@@ -1,4 +1,3 @@
-// 为删除操作设置的模态框组件
 <template>
   <div class="dialog">
     <div class="mask"></div>
@@ -28,8 +27,6 @@ export default {
       promise: ''
     }
   },
-
-  components: {},
 
   computed: {
     modal: function () {

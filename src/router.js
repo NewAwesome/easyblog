@@ -13,73 +13,93 @@ import EditCat from './views/admin/EditCat.vue'
 import EditCon from './views/admin/EditCon.vue'
 import Index from './views/admin/Index.vue'
 
+import Test from './views/test/Test.vue'
+
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [{
-    path: '/',
-    redirect: '/home'
-  }, {
-    path: '/home',
-    name: 'home',
-    component: Home,
-    redirect: 'home/list/-1',
-    children: [{
-      path: 'list/:id',
-      name: 'list',
-      component: List
-    }, {
-      path: 'detail',
-      name: 'detail',
-      component: Detail
-    }]
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: Admin,
-    redirect: 'admin/index',
-    children: [{
-      path: 'user',
-      name: 'user',
-      component: User
+  routes: [
+    {
+      path: '/',
+      redirect: '/home'
     },
     {
-      path: 'index',
-      name: 'index',
-      component: Index
+      path: '/home',
+      name: 'home',
+      component: Home,
+      redirect: 'home/list/-1',
+      children: [
+        {
+          path: 'list/:id',
+          name: 'list',
+          component: List
+        },
+        {
+          path: 'detail',
+          name: 'detail',
+          component: Detail
+        }
+      ]
     },
     {
-      path: 'category',
-      name: 'category',
-      component: Category,
-      children: [{
-        path: 'addCat',
-        name: 'category-add',
-        component: AddCat
-      }, {
-        path: 'editCat',
-        name: 'category-edit',
-        component: EditCat
-      }]
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      redirect: 'admin/index',
+      children: [
+        {
+          path: 'user',
+          name: 'user',
+          component: User
+        },
+        {
+          path: 'index',
+          name: 'index',
+          component: Index
+        },
+        {
+          path: 'category',
+          name: 'category',
+          component: Category,
+          children: [
+            {
+              path: 'addCat',
+              name: 'category-add',
+              component: AddCat
+            },
+            {
+              path: 'editCat',
+              name: 'category-edit',
+              component: EditCat
+            }
+          ]
+        },
+        {
+          path: 'content',
+          name: 'content',
+          component: Content,
+          children: [
+            {
+              path: 'addCon',
+              name: 'content-add',
+              component: AddCon
+            },
+            {
+              path: 'editCon',
+              name: 'content-edit',
+              component: EditCon
+            }
+          ]
+        }
+      ]
     },
+    // 测试
     {
-      path: 'content',
-      name: 'content',
-      component: Content,
-      children: [{
-        path: 'addCon',
-        name: 'content-add',
-        component: AddCon
-      }, {
-        path: 'editCon',
-        name: 'content-edit',
-        component: EditCon
-      }]
+      path: '/test',
+      name: 'test',
+      component: Test
     }
-    ]
-  }
   ]
 })

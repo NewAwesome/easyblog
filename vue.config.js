@@ -35,7 +35,14 @@ module.exports = {
       '/manage': {
         target: 'http://localhost:3000',
         changeOrigin: true
+      },
+      '/film': {
+        target: 'http://aldirect.hls.huya.com', // /PLTV/3/224/3221225548/index.m3u8
+        changeOrigin: true,
+        pathRewrite: { '^/film': '' }
       }
     }
   }
+  // Test vue-echarts
+  // transpileDependencies: ['vue-echarts', 'resize-detector']
 }
