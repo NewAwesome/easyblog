@@ -81,3 +81,10 @@ _id , name(String)
 该项目仅完成了基本的功能：注册、登陆、查看博文、评论、后台管理博文、后台管理用户、后台管理博文分类，其中后台管理项实现了增删改查。
 
 用于练习前后端的全栈项目，未来会继续更新完善前台 ui 界面和后台更多功能，最终作为自己的个人网站上线。
+
+# 五、截图
+
+![这里随便写文字](https://github.com/NewAwesome/easyblog/blob/master/mdImg/home.png)
+![这里随便写文字](https://github.com/NewAwesome/easyblog/blob/master/mdImg/detail.png)
+![这里随便写文字](https://github.com/NewAwesome/easyblog/blob/master/mdImg/admin.png)
+![这里随便写文字](https://github.com/NewAwesome/easyblog/blob/master/mdImg/edit.png)
